@@ -61,6 +61,7 @@ class BooksController extends Controller
                             'keywords' => 'required|string',
                             'originCountry' => 'required|string',
                             'isActivated' => 'required|string',
+                            'price' => 'required|string',
                             'lowerLimit' => 'required|numeric',
                             'upperLimit' => 'required|numeric',
                             'avgReadingTime' => 'required|numeric',
@@ -82,6 +83,8 @@ class BooksController extends Controller
                         $validatedData['hasPaperback'] = $book['hasPaperback'];
                         $validatedData['originCountry'] =  (isset($book['originCountry'])) ? $book['originCountry'] : "Not available";
                         $validatedData['isActivated'] = $book['isActivated'];
+                        $validatedData['price'] = (isset($book['pricing']['paperBackPrice'])) ? $book['pricing']['paperBackPrice'] : (!(isset($book['pricing']['paperBackPrice'])) ? $book['pricing']['sellPrice'] : $book['pricing']['hardboundPrice']);
+                        
                         $validatedData['keywords'] = $book['keywords'];
                         $validatedData['lowerLimit'] = $book['ageRange']['lowerLimit'];
                         $validatedData['upperLimit'] = $book['ageRange']['upperLimit'];

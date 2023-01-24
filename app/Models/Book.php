@@ -22,6 +22,7 @@ class Book extends Model
         'avgReadingTime',
         'status',
         'contentType',
+        'price',
         'preview_link',
         'hasRental',
         'hasHardbound',

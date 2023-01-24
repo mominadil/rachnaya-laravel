@@ -17,6 +17,7 @@ return new class extends Migration
             $table->comment('');
             $table->bigIncrements('id');
             $table->string('keywords');
+            $table->string('slug');
             $table->timestamps();
         });
     }

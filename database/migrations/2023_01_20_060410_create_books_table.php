@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('language', 100);
             $table->string('publishedAt');
             $table->integer('avgReadingTime');
+            $table->integer('price');
             $table->string('status');
             $table->string('contentType', 100);
             $table->string('hasDigital', 100);
