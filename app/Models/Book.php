@@ -15,8 +15,9 @@ class Book extends Model
         'description',
         'author',
         'category',
-        'publisher',
+        'publisher_name',
         'isbn',
+        'pages',
         'language',
         'publishedAt',
         'avgReadingTime',
@@ -28,6 +29,7 @@ class Book extends Model
         'hasHardbound',
         'hasPaperback',
         'category_id',
+        'publisher_id',
         'originCountry',
         'lowerLimit',
         'upperLimit',
@@ -53,6 +55,11 @@ class Book extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+    
+    public function publisher()
+    {
+        return $this->belongsTo(Publisher::class);
     }
 
 }

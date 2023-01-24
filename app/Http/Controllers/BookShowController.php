@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Category;
+use App\Models\Publisher;
 use Illuminate\Http\Request;
 
 class BookShowController extends Controller
@@ -30,14 +31,26 @@ class BookShowController extends Controller
     }
 
 
-        public function category_view_all($slug)
+    public function category_view_all($slug)
     {
         $categories = Category::get();
         // $books = $category->books()->paginate(10);
         $category = Category::where('slug', $slug)->with('books')->get();
         // dd($categories);
         return view('/template', compact('category', 'categories'));
+    }
 
+    public function book_view($slug)
+    {
+        // $categories = Category::get();
+        // $books = $category->books()->paginate(10);
+        // $book = Book::where('slug', $slug)->with('category')->with('publisher')->with('keywords')->get();
+        $book = Book::where('slug', $slug)->with('category')->with('publisher')->with('keywords')->first();
+        $publisher_id = $book->publisher->id;
+        $publisher_books = Publisher::where('id', $publisher_id)->with('books')->first();
+        // dd($book);
+
+        return view('/book', compact('book', 'publisher_books'));
     }
 
     /**

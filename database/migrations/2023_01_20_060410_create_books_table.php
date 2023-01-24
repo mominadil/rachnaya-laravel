@@ -19,11 +19,13 @@ return new class extends Migration
             $table->string('b_id', 100);
             $table->string('title');
             $table->string('author');
-            $table->string('publisher');
+            $table->string('publisher_name');
             $table->string('isbn');
+            $table->string('pages');
             $table->longText('description');
             $table->string('category', 100);
             $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('publisher_id')->nullable();
             // $table->foreignId('keyword_id')->references('id')->on('keywords');
             $table->string('language', 100);
             $table->string('publishedAt');

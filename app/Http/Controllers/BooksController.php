@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Book;
 use App\Models\Keywords;
 use App\Models\Category;
+use App\Models\Publisher;
 // use Illuminate\Support\Facades\Http;
 // use GuzzleHttp\Client;
 use GuzzleHttp\Client;
@@ -50,9 +51,12 @@ class BooksController extends Controller
                             'language' => 'required|string',
                             'author' => 'required|string',
                             'status' => 'required|string',
-                            'publisher' => 'required|string',
+                            'publisher_name' => 'required|string',
+                            'publisher_bio' => 'required|string',
+                            'publisher_status' => 'required|string',
                             'publishedAt' => 'required|string',
                             'isbn' => 'required|string',
+                            'pages' => 'required|string',
                             'contentType' => 'required|string',
                             'hasDigital' => 'required|string',
                             'hasRental' => 'required|string',
@@ -89,9 +93,13 @@ class BooksController extends Controller
                         $validatedData['lowerLimit'] = $book['ageRange']['lowerLimit'];
                         $validatedData['upperLimit'] = $book['ageRange']['upperLimit'];
                         $validatedData['author'] = (isset($book['authors'])) ? $book['authors'][0]['name'] : "Not available";
-                        $validatedData['publisher'] = (isset($book['publisher'])) ? $book['publisher']['name'] : "Not available";
+                        // $validatedData['publisher'] = (isset($book['publisher'])) ? $book['publisher']['name'] : "Not available";
+                        $validatedData['publisher_name'] = $book['publisher']['name'];
+                        $validatedData['publisher_status'] = $book['publisher']['status'];
+                        $validatedData['publisher_bio'] = (isset($book['publisher']['bio'])) ? $book['publisher']['bio'] : "Not available";
                         $validatedData['preview_link'] = (isset($book['thumbnailFront'])) ? $book['thumbnailFront'] : "N/A";
                         $validatedData['isbn'] = (isset($book['digital']['isbn'])) ? $book['digital']['isbn'] : "N/A";
+                        $validatedData['pages'] = (isset($book['digital']['pages'])) ? $book['digital']['pages'] : (!(isset($book['digital']['pages'])) ? $book['paperback']['pages'] : $book['hardbound']['pages']);
 
                         // Check if book already exists in the database
                         $existing_book = Book::where('b_id', $validatedData['b_id'])->first();
@@ -109,6 +117,14 @@ class BooksController extends Controller
                             // Attach new category
                             $new_category = Category::firstOrCreate(['category' => $validatedData['category']]);
                             $existing_book->category_id = $new_category->id;
+                            // Attach New Publisher
+                            $new_publisher = Publisher::firstOrCreate([
+                                'name' => $validatedData['publisher_name'],
+                                'bio' => $validatedData['publisher_bio'],
+                                'status' => $validatedData['publisher_status']
+                            ]);
+
+                            $existing_book->publisher_id = $new_publisher->id;
                             $existing_book->save();
                         } else {
                             // Create new book
@@ -126,6 +142,14 @@ class BooksController extends Controller
                             // Attach category
                             $new_category = Category::firstOrCreate(['category' => $validatedData['category']]);
                             $new_book->category_id = $new_category->id;
+                            //Attach Publisher
+                            $new_publisher = Publisher::firstOrCreate([
+                                'name' => $validatedData['publisher_name'],
+                                'bio' => $validatedData['publisher_bio'],
+                                'status' => $validatedData['publisher_status']
+                            ]);
+
+                            $new_book->publisher_id = $new_publisher->id;
                             $new_book->save();
                         }
 

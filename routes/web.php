@@ -22,3 +22,5 @@ Route::get('/', [BookShowController::class, 'index'])->name('home');
 
 
 Route::get('/category/{slug}', [BookShowController::class, 'category_view_all'])->name('category.slug');
+
+Route::get('/book/{slug}', [BookShowController::class, 'book_view'])->name('book.slug');
