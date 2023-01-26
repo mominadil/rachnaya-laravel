@@ -127,9 +127,9 @@
                                 <img class="bk-img-tag" src="{{ $publisher_books->preview_link }}" alt="Beyond the doors of chaos" />
                             </a>
                         </div>
-                        {{-- @if($loop->iteration =='6')
+                        @if($loop->iteration =='6')
                         @php break; @endphp
-                        @endif --}}
+                        @endif
                         @endforeach
                     </div>
                 </section>
